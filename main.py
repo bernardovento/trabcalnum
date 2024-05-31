@@ -46,14 +46,15 @@ def gerarListaAreas(listX, listY):
 
     return listAreas
 
-#---------------------------------Funções do Método da Bisseção---------------------------------
+#---------------------------------Funções do Ajuste de Curvas---------------------------------
 
 # Função que calcula o Coeficiente de Inclinação:
-def coef_inclinacao(x, y, x2, xy):
+# Função que calcula o Coeficiente de Inclinação:
+def CoefInclinacao(x, y, x2, xy):
     return (len(x) * sum(xy) - sum(x) * sum(y)) / (len(x) * sum(x2) - sum(x) * sum(x))
     
 # Função que calcula o Intercepto:
-def intercepto(x, y, CoefInc):
+def Intercepto(x, y, CoefInc):
     return  (sum(y) / len(y)) - (sum(x) / len(x)) * CoefInc
 
 #--------------------------------------MAIN--------------------------------------
@@ -78,4 +79,27 @@ lisAreas = gerarListaAreas(x, y)
 # A integral é a soma da lista de Trapézios
 print(f'Integral : {sum(lisAreas)}')
 
+#----------Ajuste de Curvas----------
 
+print(f'\n')
+# Declarando X * Y e X * X:
+XxY = []
+XxX = []
+i = 0
+# Populando X * Y e X * X:
+while(i<len(x)):
+    XxY.append(x[i]*y[i])
+    XxX.append(x[i]*x[i])
+    i = i + 1
+
+# Chamando a função que calcula o Coeficiente de Inclinação:
+CoefInc = CoefInclinacao(x,y,XxX,XxY)
+
+# Print da função que calcula o Coeficiente de Inclinação:
+print(f'Coeficiente de Inclinação: {CoefInc}')
+
+# Print e chamando a função que calcula o Intercepto:
+print(f'Intercepto: {Intercepto(x, y, CoefInc)}')
+
+# Print da função formada pelo Interceptor e Coeficiente de Inclinação:
+print(f'A função é: f(x) = {Intercepto(x, y, CoefInc)} + ({CoefInc} * x)')
