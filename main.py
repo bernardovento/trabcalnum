@@ -28,11 +28,23 @@ def aplicar_inter_poli(array_poli, new_values):
             aux_poli.append(number**(len(array_poli) - 1 - i) * (array_poli[i]))
             i = i + 1
         aux_resultado = np.append(aux_resultado, sum(aux_poli))
-        print(f'{aux_resultado}')
     return aux_resultado
             
 
+#---------------------------------Funções para Calcular a Integral---------------------------------
+# Função para Calcular a área do Trapezio:
+def areaTrapezio(b, B, h):
+    return ((B + b)*h/2)
 
+# Função para gerar a lista de Áreas dos Trapézios
+def gerarListaAreas(listX, listY):
+    listAreas = [];
+    i = 0;
+    while(i < len(listX) - 1):
+        listAreas.append(areaTrapezio(listY[i+1], listY[i], listX[i+1] - listX[i]))
+        i += 1
+
+    return listAreas
 
 #---------------------------------Funções do Método da Bisseção---------------------------------
 
@@ -52,9 +64,18 @@ x = np.array([0,2,4,6,8,10])
  # Declaração do Y:
 y = np.array([0,4,8,12,16,20])
 
+# ---------- Interpolação Polinomial ----------
 tempos_n_medidos = np.array([1,3,5,7,9,11])
 
+print(f"Interpolação Polinolial: {interpolacao_polinomial(x, y)}")
 
-print(f"{interpolacao_polinomial(x, y)}")
+print(f"Interpolação Polinolial Aplicada: {aplicar_inter_poli(interpolacao_polinomial(x, y), tempos_n_medidos)}")
 
-print(f"{aplicar_inter_poli(interpolacao_polinomial(x, y), tempos_n_medidos)}")
+# ---------- Integral ----------
+print(f'\n')
+lisAreas = gerarListaAreas(x, y)
+
+# A integral é a soma da lista de Trapézios
+print(f'Integral : {sum(lisAreas)}')
+
+
