@@ -47,8 +47,6 @@ def gerarListaAreas(listX, listY):
     return listAreas
 
 #---------------------------------Funções do Ajuste de Curvas---------------------------------
-
-# Função que calcula o Coeficiente de Inclinação:
 # Função que calcula o Coeficiente de Inclinação:
 def CoefInclinacao(x, y, x2, xy):
     return (len(x) * sum(xy) - sum(x) * sum(y)) / (len(x) * sum(x2) - sum(x) * sum(x))
@@ -56,7 +54,31 @@ def CoefInclinacao(x, y, x2, xy):
 # Função que calcula o Intercepto:
 def Intercepto(x, y, CoefInc):
     return  (sum(y) / len(y)) - (sum(x) / len(x)) * CoefInc
+#---------------------------------Funções do Ajuste de Curvas---------------------------------
+# Função f(x) = 2x
+def funcX(x):
+    return (x*x*x - x - 2)
 
+# Função que realiza o metodo da Bisseção 
+def bissecao(a, b, tol):
+    # Checa se é possível realizar o método:
+    if funcX(a) * funcX(b) >= 0:
+        print(f'O método da Bisseção não é aplicável!')
+        return None
+        
+    while (b-a)/2 > tol:
+        # Calculo do ponto médio:
+        c = (a + b)/2 
+        if(funcX(c) == 0):
+            # Encontrou a raiz exata, logo retorna o c!
+            return c
+        elif(funcX(a) * funcX(c) < 0):
+            # Atualiza o intervalo para [b,c]!
+            b = c
+        else:
+            # Atualiza o intervalo para [c, b]!
+            a = c
+    return (a + b)/2
 #--------------------------------------MAIN--------------------------------------
 
 # Declaração do X:
@@ -103,3 +125,15 @@ print(f'Intercepto: {Intercepto(x, y, CoefInc)}')
 
 # Print da função formada pelo Interceptor e Coeficiente de Inclinação:
 print(f'A função é: f(x) = {Intercepto(x, y, CoefInc)} + ({CoefInc} * x)')
+
+#----------Método da Bisseção----------
+print(f'\n')
+# Declarando os valores para realizar p Método da Bisseção
+Xmin = 0
+Xmax = 200
+tol = 1e-5
+
+raiz = bissecao(Xmin, Xmax, tol)
+# Checa se foi realizado o Método da Bisseção:
+if raiz != None:
+    print(f'A raiz é {raiz}')
